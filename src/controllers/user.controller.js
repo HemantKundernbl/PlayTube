@@ -261,6 +261,17 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Account details updated successfully"));
 });
 
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findByIdAndDelete(req.user._id);
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "User deleted successfully"));
+});
+
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file;
 
@@ -450,4 +461,5 @@ export {
   updateCoverImage,
   getUserChannelProfile,
   getWatchHistory,
+  deleteUser,
 };
